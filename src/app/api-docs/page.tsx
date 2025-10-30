@@ -81,6 +81,425 @@ export default function ApiDocsPage() {
           </div>
         </ApiSection>
 
+        {/* Agent Management Section */}
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent mb-6">
+            Agent Management
+          </h2>
+        </div>
+
+        {/* List Agents Endpoint */}
+        <ApiSection title="List Agents" id="list-agents">
+          <ApiEndpoint
+            method="GET"
+            endpoint="/api/v1/agents"
+            description="Retrieve a paginated list of AI agents with optional filtering by status."
+            authRequired={true}
+            codePanel={
+              <CodeTabs
+                title="Request Example"
+                examples={[
+                  {
+                    language: 'bash',
+                    label: 'cURL',
+                    code: `curl -X GET "https://voice-ai-admin-api-762279639608.asia-south1.run.app/api/v1/agents?page=1&per_page=20&status_filter=active" \\
+  -H "X-API-Key: your-api-key"`,
+                  },
+                  {
+                    language: 'javascript',
+                    label: 'JavaScript',
+                    code: `const params = new URLSearchParams({
+  page: '1',
+  per_page: '20',
+  status_filter: 'active'
+});
+
+const response = await fetch(\`https://voice-ai-admin-api-762279639608.asia-south1.run.app/api/v1/agents?\${params}\`, {
+  method: 'GET',
+  headers: {
+    'X-API-Key': 'your-api-key',
+  },
+});
+
+const data = await response.json();
+console.log(\`Total agents: \${data.total}\`);`,
+                  },
+                  {
+                    language: 'python',
+                    label: 'Python',
+                    code: `import requests
+
+params = {
+    'page': 1,
+    'per_page': 20,
+    'status_filter': 'active'
+}
+
+response = requests.get(
+    'https://voice-ai-admin-api-762279639608.asia-south1.run.app/api/v1/agents',
+    headers={'X-API-Key': 'your-api-key'},
+    params=params
+)
+
+data = response.json()
+print(f"Total agents: {data['total']}")`,
+                  },
+                ]}
+              />
+            }
+          >
+            <ParametersTable
+              title="Query Parameters"
+              parameters={[
+                {
+                  name: 'page',
+                  type: 'number',
+                  required: false,
+                  description: 'Page number (default: 1)',
+                },
+                {
+                  name: 'per_page',
+                  type: 'number',
+                  required: false,
+                  description: 'Items per page (default: 10, max: 100)',
+                },
+                {
+                  name: 'status_filter',
+                  type: 'string',
+                  required: false,
+                  description: 'Filter by status (active, inactive)',
+                },
+              ]}
+            />
+
+            <ParametersTable
+              title="Response (200 OK)"
+              parameters={[
+                {
+                  name: 'agents',
+                  type: 'array',
+                  description: 'Array of agent objects',
+                },
+                {
+                  name: 'agents[].id',
+                  type: 'uuid',
+                  description: 'Agent UUID',
+                },
+                {
+                  name: 'agents[].name',
+                  type: 'string',
+                  description: 'Agent name',
+                },
+                {
+                  name: 'agents[].status',
+                  type: 'string',
+                  description: 'Agent status (active, inactive)',
+                },
+                {
+                  name: 'agents[].prompt',
+                  type: 'string',
+                  description: 'Agent conversation prompt',
+                },
+                {
+                  name: 'agents[].voice_id',
+                  type: 'uuid',
+                  description: 'Voice configuration UUID',
+                },
+                {
+                  name: 'agents[].max_attempts',
+                  type: 'number',
+                  description: 'Maximum call attempts per lead',
+                },
+                {
+                  name: 'agents[].retry_delay_minutes',
+                  type: 'number',
+                  description: 'Delay between retry attempts',
+                },
+                {
+                  name: 'total',
+                  type: 'number',
+                  description: 'Total number of agents',
+                },
+                {
+                  name: 'page',
+                  type: 'number',
+                  description: 'Current page number',
+                },
+                {
+                  name: 'per_page',
+                  type: 'number',
+                  description: 'Items per page',
+                },
+              ]}
+            />
+
+            <div className="my-6">
+              <ApiPlayground
+                method="GET"
+                endpoint="/api/v1/agents"
+                baseUrl="https://voice-ai-admin-api-762279639608.asia-south1.run.app"
+                parameters={[
+                  { name: 'page', type: 'number', required: false, description: 'Page number', defaultValue: '1' },
+                  { name: 'per_page', type: 'number', required: false, description: 'Items per page', defaultValue: '10' },
+                  { name: 'status_filter', type: 'string', required: false, description: 'Filter by status', defaultValue: 'active' },
+                ]}
+              />
+            </div>
+          </ApiEndpoint>
+        </ApiSection>
+
+        {/* Update Agent Endpoint */}
+        <ApiSection title="Update Agent" id="update-agent">
+          <ApiEndpoint
+            method="PUT"
+            endpoint="/api/v1/agents/{agent_id}"
+            description="Update an existing agent's configuration. All fields are optional - only include fields you want to update."
+            authRequired={true}
+            codePanel={
+              <CodeTabs
+                title="Request Example"
+                examples={[
+                  {
+                    language: 'bash',
+                    label: 'cURL',
+                    code: `curl -X PUT "https://voice-ai-admin-api-762279639608.asia-south1.run.app/api/v1/agents/{agent_id}" \\
+  -H "X-API-Key: your-api-key" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "name": "Updated Agent Name",
+    "status": "active",
+    "max_attempts": 5
+  }'`,
+                  },
+                  {
+                    language: 'javascript',
+                    label: 'JavaScript',
+                    code: `const response = await fetch('https://voice-ai-admin-api-762279639608.asia-south1.run.app/api/v1/agents/{agent_id}', {
+  method: 'PUT',
+  headers: {
+    'X-API-Key': 'your-api-key',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    name: 'Updated Agent Name',
+    status: 'active',
+    max_attempts: 5
+  })
+});
+
+const updatedAgent = await response.json();
+console.log('Agent updated:', updatedAgent);`,
+                  },
+                  {
+                    language: 'python',
+                    label: 'Python',
+                    code: `import requests
+
+response = requests.put(
+    'https://voice-ai-admin-api-762279639608.asia-south1.run.app/api/v1/agents/{agent_id}',
+    headers={'X-API-Key': 'your-api-key'},
+    json={
+        'name': 'Updated Agent Name',
+        'status': 'active',
+        'max_attempts': 5
+    }
+)
+
+updated_agent = response.json()
+print(f"Agent updated: {updated_agent}")`,
+                  },
+                ]}
+              />
+            }
+          >
+            <ParametersTable
+              title="Path Parameters"
+              parameters={[
+                {
+                  name: 'agent_id',
+                  type: 'uuid',
+                  required: true,
+                  description: 'UUID of the agent to update',
+                },
+              ]}
+            />
+
+            <ParametersTable
+              title="Request Body (all fields optional)"
+              parameters={[
+                {
+                  name: 'name',
+                  type: 'string',
+                  required: false,
+                  description: 'Agent name',
+                },
+                {
+                  name: 'status',
+                  type: 'string',
+                  required: false,
+                  description: 'Agent status (active, inactive)',
+                },
+                {
+                  name: 'prompt',
+                  type: 'string',
+                  required: false,
+                  description: 'Updated agent prompt',
+                },
+                {
+                  name: 'welcome_message',
+                  type: 'string',
+                  required: false,
+                  description: 'Updated welcome message',
+                },
+                {
+                  name: 'voice_id',
+                  type: 'uuid',
+                  required: false,
+                  description: 'Voice configuration UUID',
+                },
+                {
+                  name: 'max_attempts',
+                  type: 'number',
+                  required: false,
+                  description: 'Maximum call attempts per lead',
+                },
+                {
+                  name: 'retry_delay_minutes',
+                  type: 'number',
+                  required: false,
+                  description: 'Delay between retry attempts',
+                },
+              ]}
+            />
+
+            <ParametersTable
+              title="Response (200 OK)"
+              parameters={[
+                {
+                  name: 'id',
+                  type: 'uuid',
+                  description: 'Agent identifier',
+                },
+                {
+                  name: 'name',
+                  type: 'string',
+                  description: 'Updated agent name',
+                },
+                {
+                  name: 'status',
+                  type: 'string',
+                  description: 'Updated status',
+                },
+                {
+                  name: 'updated_at',
+                  type: 'datetime',
+                  description: 'Timestamp of update',
+                },
+              ]}
+            />
+
+            <div className="my-6">
+              <ApiPlayground
+                method="PUT"
+                endpoint="/api/v1/agents/{agent_id}"
+                baseUrl="https://voice-ai-admin-api-762279639608.asia-south1.run.app"
+                parameters={[
+                  { name: 'agent_id', type: 'uuid', required: true, description: 'UUID of the agent to update', defaultValue: '' },
+                  { name: 'name', type: 'string', required: false, description: 'Agent name', defaultValue: '' },
+                  { name: 'status', type: 'string', required: false, description: 'Agent status', defaultValue: '' },
+                ]}
+              />
+            </div>
+          </ApiEndpoint>
+        </ApiSection>
+
+        {/* Delete Agent Endpoint */}
+        <ApiSection title="Delete Agent" id="delete-agent">
+          <ApiEndpoint
+            method="DELETE"
+            endpoint="/api/v1/agents/{agent_id}"
+            description="Permanently delete an agent from your account. This action cannot be undone."
+            authRequired={true}
+            codePanel={
+              <CodeTabs
+                title="Request Example"
+                examples={[
+                  {
+                    language: 'bash',
+                    label: 'cURL',
+                    code: `curl -X DELETE "https://voice-ai-admin-api-762279639608.asia-south1.run.app/api/v1/agents/{agent_id}" \\
+  -H "X-API-Key: your-api-key"`,
+                  },
+                  {
+                    language: 'javascript',
+                    label: 'JavaScript',
+                    code: `const response = await fetch('https://voice-ai-admin-api-762279639608.asia-south1.run.app/api/v1/agents/{agent_id}', {
+  method: 'DELETE',
+  headers: {
+    'X-API-Key': 'your-api-key',
+  },
+});
+
+const result = await response.json();
+console.log(result.message);`,
+                  },
+                  {
+                    language: 'python',
+                    label: 'Python',
+                    code: `import requests
+
+response = requests.delete(
+    'https://voice-ai-admin-api-762279639608.asia-south1.run.app/api/v1/agents/{agent_id}',
+    headers={'X-API-Key': 'your-api-key'}
+)
+
+result = response.json()
+print(result['message'])`,
+                  },
+                ]}
+              />
+            }
+          >
+            <ParametersTable
+              title="Path Parameters"
+              parameters={[
+                {
+                  name: 'agent_id',
+                  type: 'uuid',
+                  required: true,
+                  description: 'UUID of the agent to delete',
+                },
+              ]}
+            />
+
+            <ParametersTable
+              title="Response (200 OK)"
+              parameters={[
+                {
+                  name: 'message',
+                  type: 'string',
+                  description: 'Success message: "Agent deleted"',
+                },
+              ]}
+            />
+
+            <div className="my-6">
+              <ApiPlayground
+                method="DELETE"
+                endpoint="/api/v1/agents/{agent_id}"
+                baseUrl="https://voice-ai-admin-api-762279639608.asia-south1.run.app"
+                parameters={[
+                  { name: 'agent_id', type: 'uuid', required: true, description: 'UUID of the agent to delete', defaultValue: '' },
+                ]}
+              />
+            </div>
+
+            <Callout type="danger" title="Warning">
+              This action is permanent and cannot be undone. Deleting an agent will also affect all associated leads and call history.
+            </Callout>
+          </ApiEndpoint>
+        </ApiSection>
+
         {/* Lead Management Section */}
         <div className="mb-12">
           <h2 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent mb-6">
@@ -1237,6 +1656,209 @@ print(f"Pickup rate: {metrics['pickup_rate']}%")`,
           </h2>
         </div>
 
+        {/* Webhook Overview Section */}
+        <div className="mb-12 prose prose-slate max-w-none">
+          <div className="bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-200 rounded-xl p-8 mb-8">
+            <h3 className="text-2xl font-semibold text-slate-900 mb-4">Overview</h3>
+            <p className="text-slate-700 leading-relaxed">
+              Webhooks in ConversAI Labs provide a powerful way to respond to call events in real-time.
+              By setting up webhooks, your applications can immediately react to specific call actions or changes,
+              enhancing the interactivity and responsiveness of your integrations.
+            </p>
+          </div>
+
+          {/* Types of Webhook Events */}
+          <h3 className="text-2xl font-semibold text-slate-900 mb-6">Types of Webhook Events</h3>
+          <p className="text-slate-600 mb-6">
+            Currently, ConversAI Labs supports the following webhook event types:
+          </p>
+
+          <div className="space-y-4 mb-8">
+            <div className="border-l-4 border-emerald-500 bg-emerald-50 p-4 rounded-r-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <code className="text-sm font-semibold text-emerald-700">call.started</code>
+              </div>
+              <p className="text-sm text-slate-700">
+                Triggered when a call begins. This event fires immediately when an outbound call is initiated
+                or an inbound call is received.
+              </p>
+            </div>
+
+            <div className="border-l-4 border-blue-500 bg-blue-50 p-4 rounded-r-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <code className="text-sm font-semibold text-blue-700">call.completed</code>
+              </div>
+              <p className="text-sm text-slate-700">
+                Triggered when a call ends. The event payload includes details like call duration, status, outcome,
+                transcript, recording URL, and other relevant information. This event fires immediately upon call
+                completion and does NOT include AI analysis.
+              </p>
+            </div>
+
+            <div className="border-l-4 border-amber-500 bg-amber-50 p-4 rounded-r-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <code className="text-sm font-semibold text-amber-700">call.analysed</code>
+              </div>
+              <p className="text-sm text-slate-700">
+                Triggered when AI analysis completes, typically 5-30 seconds after the call ends. The event payload
+                includes all call details PLUS AI-generated insights such as sentiment analysis, key points extracted
+                from the conversation, and recommended next actions. Use this event when you need AI insights for your
+                workflow automation.
+              </p>
+            </div>
+          </div>
+
+          {/* Use Case Example */}
+          <h3 className="text-2xl font-semibold text-slate-900 mb-6">Use Case Example</h3>
+          <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 mb-8">
+            <p className="text-slate-700 mb-4">
+              Consider the <code className="text-blue-600 font-semibold">call.analysed</code> event. This event is triggered
+              when AI processing completes for a call in your ConversAI Labs account. By listening to this event, you can
+              capture important call details and AI-generated insights, then perform custom actions such as:
+            </p>
+            <ul className="space-y-2 text-sm text-slate-700">
+              <li className="flex gap-3">
+                <span className="text-indigo-600">•</span>
+                <span><strong>CRM Integration:</strong> Automatically update lead status in Salesforce or HubSpot based on call sentiment</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="text-indigo-600">•</span>
+                <span><strong>Task Creation:</strong> Create follow-up tasks for sales reps based on AI-recommended next actions</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="text-indigo-600">•</span>
+                <span><strong>Analytics:</strong> Stream call data and AI insights to your data warehouse for analysis</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="text-indigo-600">•</span>
+                <span><strong>Notifications:</strong> Send Slack or email alerts to managers when high-value opportunities are detected</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Register Webhook */}
+          <h3 className="text-2xl font-semibold text-slate-900 mb-6">Register Webhook</h3>
+          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6 mb-8">
+            <p className="text-slate-700 mb-4">
+              Configure your webhook through the API to receive real-time event notifications. You can specify:
+            </p>
+            <ul className="space-y-2 text-sm text-slate-700 mb-6">
+              <li className="flex gap-3">
+                <span className="text-blue-600">✓</span>
+                <span><strong>Webhook URL:</strong> Your HTTPS endpoint that will receive event notifications</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="text-blue-600">✓</span>
+                <span><strong>Event Subscriptions:</strong> Choose which events to receive (or subscribe to all events)</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="text-blue-600">✓</span>
+                <span><strong>Enable/Disable:</strong> Toggle webhook delivery on or off without changing configuration</span>
+              </li>
+            </ul>
+
+            <Callout type="warning" title="Webhook Delivery Requirements">
+              <ul className="list-disc list-inside space-y-1 text-sm">
+                <li>Your endpoint must use <strong>HTTPS</strong> (HTTP is not supported)</li>
+                <li>Return a <strong>2xx status code</strong> within 30 seconds to acknowledge receipt</li>
+                <li>Failed deliveries are retried at 1min, 5min, and 15min intervals (max 4 attempts)</li>
+                <li>Implement <strong>idempotency</strong> using <code>call_id</code> to handle duplicate events</li>
+              </ul>
+            </Callout>
+          </div>
+
+          {/* Webhook Payload Examples */}
+          <h3 className="text-2xl font-semibold text-slate-900 mb-6">Webhook Payload Examples</h3>
+
+          <div className="space-y-6">
+            {/* call.started payload */}
+            <div>
+              <h4 className="text-lg font-semibold text-slate-900 mb-3 flex items-center gap-2">
+                <span className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-sm">call.started</span>
+              </h4>
+              <div className="bg-slate-900 rounded-lg p-4 overflow-x-auto">
+                <pre className="text-xs text-slate-100">
+{`{
+  "event": "call.started",
+  "timestamp": "2025-01-15T10:30:00Z",
+  "call_id": "uuid",
+  "lead_id": "uuid",
+  "agent_id": "uuid",
+  "phone_number": "+1234567890",
+  "lead_name": "John Doe"
+}`}
+                </pre>
+              </div>
+            </div>
+
+            {/* call.completed payload */}
+            <div>
+              <h4 className="text-lg font-semibold text-slate-900 mb-3 flex items-center gap-2">
+                <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm">call.completed</span>
+              </h4>
+              <div className="bg-slate-900 rounded-lg p-4 overflow-x-auto">
+                <pre className="text-xs text-slate-100">
+{`{
+  "event": "call.completed",
+  "timestamp": "2025-01-15T10:35:00Z",
+  "call_id": "uuid",
+  "lead_id": "uuid",
+  "agent_id": "uuid",
+  "duration_seconds": 125,
+  "tokens_consumed": 5,
+  "status": "completed",
+  "outcome": "answered",
+  "summary": "Call completed successfully",
+  "recording_url": "https://...",
+  "transcript": "..."
+}`}
+                </pre>
+              </div>
+              <p className="text-sm text-slate-600 mt-2 italic">
+                Note: AI analysis is NOT included in this event. Use call.analysed for AI insights.
+              </p>
+            </div>
+
+            {/* call.analysed payload */}
+            <div>
+              <h4 className="text-lg font-semibold text-slate-900 mb-3 flex items-center gap-2">
+                <span className="px-2 py-1 bg-amber-100 text-amber-700 rounded text-sm">call.analysed</span>
+              </h4>
+              <div className="bg-slate-900 rounded-lg p-4 overflow-x-auto">
+                <pre className="text-xs text-slate-100">
+{`{
+  "event": "call.analysed",
+  "timestamp": "2025-01-15T10:35:30Z",
+  "call_id": "uuid",
+  "lead_id": "uuid",
+  "agent_id": "uuid",
+  "duration_seconds": 125,
+  "tokens_consumed": 5,
+  "status": "completed",
+  "outcome": "answered",
+  "summary": "Call completed successfully",
+  "ai_analysis": {
+    "sentiment": "positive",
+    "key_points": [
+      "Customer interested in product demo",
+      "Budget confirmed at $50k"
+    ],
+    "next_action": "Schedule product demonstration",
+    "call_successful": true,
+    "custom_analysis_data": {}
+  },
+  "recording_url": "https://...",
+  "transcript": "..."
+}`}
+                </pre>
+              </div>
+              <p className="text-sm text-slate-600 mt-2 italic">
+                This event fires after call.completed, typically 5-30 seconds later when AI analysis finishes.
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Configure Webhook Endpoint */}
         <ApiSection title="Configure Webhook" id="configure-webhook">
           <ApiEndpoint
@@ -1257,7 +1879,7 @@ print(f"Pickup rate: {metrics['pickup_rate']}%")`,
   -d '{
     "webhook_url": "https://your-domain.com/webhook",
     "enabled": true,
-    "events": ["call.started", "call.completed", "call.failed"]
+    "events": ["call.started", "call.completed", "call.failed", "call.analysed"]
   }'`,
                   },
                   {
@@ -1272,7 +1894,7 @@ print(f"Pickup rate: {metrics['pickup_rate']}%")`,
   body: JSON.stringify({
     webhook_url: 'https://your-domain.com/webhook',
     enabled: true,
-    events: ['call.started', 'call.completed', 'call.failed']
+    events: ['call.started', 'call.completed', 'call.failed', 'call.analysed']
   })
 });
 
@@ -1290,7 +1912,7 @@ response = requests.put(
     json={
         'webhook_url': 'https://your-domain.com/webhook',
         'enabled': True,
-        'events': ['call.started', 'call.completed', 'call.failed']
+        'events': ['call.started', 'call.completed', 'call.failed', 'call.analysed']
     }
 )
 
@@ -1349,8 +1971,9 @@ print(f"Webhook configured: {config}")`,
             <Callout type="info" title="Available Events">
               <ul className="list-disc list-inside space-y-1 text-sm">
                 <li><code>call.started</code> - Triggered when a call begins</li>
-                <li><code>call.completed</code> - Triggered when a call completes successfully</li>
+                <li><code>call.completed</code> - Triggered immediately when a call ends (basic info, no AI analysis)</li>
                 <li><code>call.failed</code> - Triggered when a call fails</li>
+                <li><code>call.analysed</code> - Triggered when AI analysis completes (includes sentiment, insights, next actions)</li>
               </ul>
             </Callout>
 
@@ -1620,167 +2243,6 @@ print(result['message'])`,
 
             <Callout type="success" title="Testing Tip">
               Use this endpoint to verify your webhook integration before going live. Check that your endpoint returns 200 status code.
-            </Callout>
-          </ApiEndpoint>
-        </ApiSection>
-
-        {/* Get Webhook Logs Endpoint */}
-        <ApiSection title="Get Webhook Logs" id="webhook-logs">
-          <ApiEndpoint
-            method="GET"
-            endpoint="/api/v1/webhooks/logs"
-            description="Retrieve webhook delivery logs for debugging and monitoring webhook event deliveries."
-            authRequired={true}
-            codePanel={
-              <CodeTabs
-                title="Request Example"
-                examples={[
-                  {
-                    language: 'bash',
-                    label: 'cURL',
-                    code: `curl -X GET "https://voice-ai-admin-api-762279639608.asia-south1.run.app/api/v1/webhooks/logs?limit=10" \\
-  -H "X-API-Key: your-api-key"`,
-                  },
-                  {
-                    language: 'javascript',
-                    label: 'JavaScript',
-                    code: `const params = new URLSearchParams({
-  limit: '10',
-  event_type: 'call.completed',
-  delivery_status: 'success'
-});
-
-const response = await fetch(\`https://voice-ai-admin-api-762279639608.asia-south1.run.app/api/v1/webhooks/logs?\${params}\`, {
-  method: 'GET',
-  headers: {
-    'X-API-Key': 'your-api-key',
-  },
-});
-
-const logs = await response.json();
-console.log(\`Total logs: \${logs.total}\`);`,
-                  },
-                  {
-                    language: 'python',
-                    label: 'Python',
-                    code: `import requests
-
-params = {
-    'limit': 10,
-    'event_type': 'call.completed',
-    'delivery_status': 'success'
-}
-
-response = requests.get(
-    'https://voice-ai-admin-api-762279639608.asia-south1.run.app/api/v1/webhooks/logs',
-    headers={'X-API-Key': 'your-api-key'},
-    params=params
-)
-
-logs = response.json()
-print(f"Total logs: {logs['total']}")`,
-                  },
-                ]}
-              />
-            }
-          >
-            <ParametersTable
-              title="Query Parameters"
-              parameters={[
-                {
-                  name: 'limit',
-                  type: 'number',
-                  required: false,
-                  description: 'Number of logs to retrieve (default: 50, max: 200)',
-                },
-                {
-                  name: 'offset',
-                  type: 'number',
-                  required: false,
-                  description: 'Pagination offset (default: 0)',
-                },
-                {
-                  name: 'event_type',
-                  type: 'string',
-                  required: false,
-                  description: 'Filter by event type',
-                },
-                {
-                  name: 'delivery_status',
-                  type: 'string',
-                  required: false,
-                  description: 'Filter by delivery status (pending, success, failed, retrying)',
-                },
-              ]}
-            />
-
-            <ParametersTable
-              title="Response (200 OK)"
-              parameters={[
-                {
-                  name: 'total',
-                  type: 'number',
-                  description: 'Total number of logs',
-                },
-                {
-                  name: 'limit',
-                  type: 'number',
-                  description: 'Number of logs returned',
-                },
-                {
-                  name: 'offset',
-                  type: 'number',
-                  description: 'Pagination offset',
-                },
-                {
-                  name: 'logs',
-                  type: 'array',
-                  description: 'Array of webhook log entries',
-                },
-                {
-                  name: 'logs[].event_type',
-                  type: 'string',
-                  description: 'Type of event sent',
-                },
-                {
-                  name: 'logs[].call_id',
-                  type: 'uuid',
-                  description: 'Associated call/interaction UUID',
-                },
-                {
-                  name: 'logs[].delivery_status',
-                  type: 'string',
-                  description: 'Delivery status (pending, success, failed, retrying)',
-                },
-                {
-                  name: 'logs[].http_status',
-                  type: 'number',
-                  description: 'HTTP status code from webhook endpoint',
-                },
-                {
-                  name: 'logs[].sent_at',
-                  type: 'datetime',
-                  description: 'Timestamp when webhook was sent',
-                },
-              ]}
-            />
-
-            <div className="my-6">
-              <ApiPlayground
-                method="GET"
-                endpoint="/api/v1/webhooks/logs"
-                baseUrl="https://voice-ai-admin-api-762279639608.asia-south1.run.app"
-                parameters={[
-                  { name: 'limit', type: 'number', required: false, description: 'Number of logs to retrieve', defaultValue: '10' },
-                  { name: 'offset', type: 'number', required: false, description: 'Pagination offset', defaultValue: '0' },
-                  { name: 'event_type', type: 'string', required: false, description: 'Filter by event type', defaultValue: '' },
-                  { name: 'delivery_status', type: 'string', required: false, description: 'Filter by delivery status', defaultValue: '' },
-                ]}
-              />
-            </div>
-
-            <Callout type="info" title="Monitoring">
-              Use these logs to debug webhook delivery issues. Check for failed deliveries and verify your endpoint is responding with 2xx status codes.
             </Callout>
           </ApiEndpoint>
         </ApiSection>

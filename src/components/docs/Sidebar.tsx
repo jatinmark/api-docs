@@ -29,6 +29,15 @@ const navigation: NavItem[] = [
     ],
   },
   {
+    title: 'Agent Management',
+    href: '#agent-management',
+    items: [
+      { title: 'List Agents', href: '#list-agents', method: 'GET' },
+      { title: 'Update Agent', href: '#update-agent', method: 'PUT' },
+      { title: 'Delete Agent', href: '#delete-agent', method: 'DELETE' },
+    ],
+  },
+  {
     title: 'Lead Management',
     href: '#lead-management',
     items: [
@@ -56,13 +65,12 @@ const navigation: NavItem[] = [
       { title: 'Get Webhook Config', href: '#get-webhook', method: 'GET' },
       { title: 'Delete Webhook', href: '#delete-webhook', method: 'DELETE' },
       { title: 'Send Test Webhook', href: '#test-webhook', method: 'POST' },
-      { title: 'Get Webhook Logs', href: '#webhook-logs', method: 'GET' },
     ],
   },
 ];
 
 export default function Sidebar() {
-  const [openSections, setOpenSections] = useState<string[]>(['Getting Started', 'Lead Management', 'Call Management', 'Webhook Management']);
+  const [openSections, setOpenSections] = useState<string[]>(['Getting Started', 'Agent Management', 'Lead Management', 'Call Management', 'Webhook Management']);
 
   const toggleSection = (title: string) => {
     setOpenSections((prev) =>

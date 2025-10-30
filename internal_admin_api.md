@@ -1,6 +1,6 @@
 # Internal & Admin API Documentation
 
-Simple curl commands for: Lead Management (CRUD) + Call Management (Schedule, History, Metrics) + Webhook Configuration
+Simple curl commands for: Agent Management + Lead Management (CRUD) + Call Management (Schedule, History, Metrics) + Webhook Configuration
 
 ## Environment Setup
 ```bash
@@ -18,7 +18,122 @@ export DEV_URL="https://voice-ai-admin-api-762279639608.asia-south1.run.app"
 
 ---
 
-## 1. Add Lead
+## 1. List Agents
+
+**Endpoint:** `GET /api/v1/agents`
+**Authentication:** Required (X-API-Key or Bearer token)
+
+**Query Parameters:**
+- `page` (optional): Page number (default: 1)
+- `per_page` (optional): Items per page (default: 10, max: 100)
+- `status_filter` (optional): Filter by status (active|inactive)
+
+**Curl (Using X-API-Key):**
+```bash
+curl -X GET "$DEV_URL/api/v1/agents?page=1&per_page=20&status_filter=active" \
+  -H "X-API-Key: $API_KEY"
+```
+
+**Response:**
+```json
+{
+  "agents": [
+    {
+      "id": "agent-uuid",
+      "company_id": "company-uuid",
+      "name": "Sales Agent",
+      "status": "active",
+      "prompt": "You are a professional sales agent...",
+      "voice_id": "voice-uuid",
+      "inbound_phone": "+1234567890",
+      "outbound_phone": "+0987654321",
+      "max_attempts": 3,
+      "retry_delay_minutes": 30,
+      "region": "worldwide",
+      "phone_status": "complete",
+      "phone_numbers_configured": true,
+      "created_at": "2025-01-27T10:30:00Z",
+      "updated_at": "2025-01-27T10:30:00Z"
+    }
+  ],
+  "total": 5,
+  "page": 1,
+  "per_page": 20
+}
+```
+
+---
+
+## 2. Update Agent
+
+**Endpoint:** `PUT /api/v1/agents/{agent_id}`
+**Authentication:** Required (X-API-Key or Bearer token)
+
+**Request (all fields optional):**
+```json
+{
+  "name": "Updated Agent Name",
+  "status": "active",
+  "prompt": "Updated agent prompt...",
+  "welcome_message": "Updated welcome message",
+  "voice_id": "new-voice-uuid",
+  "inbound_phone": "+1111111111",
+  "outbound_phone": "+2222222222",
+  "max_attempts": 5,
+  "retry_delay_minutes": 60,
+  "max_call_duration_minutes": 30,
+  "enable_sales_cycle": true,
+  "default_call_days": [1, 2, 3]
+}
+```
+
+**Curl (Using X-API-Key):**
+```bash
+curl -X PUT "$DEV_URL/api/v1/agents/{agent_id}" \
+  -H "X-API-Key: $API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Updated Agent Name",
+    "status": "active",
+    "max_attempts": 5
+  }'
+```
+
+**Response:**
+```json
+{
+  "id": "agent-uuid",
+  "company_id": "company-uuid",
+  "name": "Updated Agent Name",
+  "status": "active",
+  "prompt": "Updated agent prompt...",
+  "updated_at": "2025-01-27T11:00:00Z"
+}
+```
+
+---
+
+## 3. Delete Agent
+
+**Endpoint:** `DELETE /api/v1/agents/{agent_id}`
+**Authentication:** Required (X-API-Key or Bearer token)
+
+**Curl (Using X-API-Key):**
+```bash
+curl -X DELETE "$DEV_URL/api/v1/agents/{agent_id}" \
+  -H "X-API-Key: $API_KEY"
+```
+
+**Response:**
+```json
+{
+  "message": "Agent deleted"
+}
+```
+
+---
+
+## 4. Add Lead
 
 **Endpoint:** `POST /api/v1/leads`
 **Authentication:** Required (X-API-Key or Bearer token)
@@ -65,7 +180,7 @@ curl -X POST "$DEV_URL/api/v1/leads" \
 
 ---
 
-## 2. Get Lead
+## 5. Get Lead
 
 **Endpoint:** `GET /api/v1/leads/{lead_id}`
 **Authentication:** Required (X-API-Key or Bearer token)
@@ -97,7 +212,7 @@ curl -X GET "$DEV_URL/api/v1/leads/{lead_id}" \
 
 ---
 
-## 3. List Leads
+## 6. List Leads
 
 **Endpoint:** `GET /api/v1/leads`
 **Authentication:** Required (X-API-Key or Bearer token)
@@ -138,7 +253,7 @@ curl -X GET "$DEV_URL/api/v1/leads?agent_id=your-agent-uuid&status_filter=new&pa
 
 ---
 
-## 4. Update Lead
+## 7. Update Lead
 
 **Endpoint:** `PUT /api/v1/leads/{lead_id}`
 **Authentication:** Required (X-API-Key or Bearer token)
@@ -186,7 +301,7 @@ curl -X PUT "$DEV_URL/api/v1/leads/{lead_id}" \
 
 ---
 
-## 5. Delete Lead
+## 8. Delete Lead
 
 **Endpoint:** `DELETE /api/v1/leads/{lead_id}`
 **Authentication:** Required (X-API-Key or Bearer token)
@@ -206,7 +321,7 @@ curl -X DELETE "$DEV_URL/api/v1/leads/{lead_id}" \
 
 ---
 
-## 6. Initiate Call
+## 9. Initiate Call
 
 **Endpoint:** `POST /api/v1/calls/schedule`
 **Authentication:** Required (X-API-Key or Bearer token)
@@ -230,7 +345,7 @@ curl -X POST "$DEV_URL/api/v1/calls/schedule" \
 
 ---
 
-## 7. Get Call History
+## 10. Get Call History
 
 **Endpoint:** `GET /api/v1/calls/history`
 **Authentication:** Required (X-API-Key or Bearer token)
@@ -285,7 +400,7 @@ curl -X GET "$DEV_URL/api/v1/calls/history?agent_id=your-agent-uuid&outcome=answ
 
 ---
 
-## 8. Get Call Metrics
+## 11. Get Call Metrics
 
 **Endpoint:** `GET /api/v1/calls/metrics`
 **Authentication:** Required (X-API-Key or Bearer token)
@@ -316,7 +431,7 @@ curl -X GET "$DEV_URL/api/v1/calls/metrics?agent_id=your-agent-uuid&start_date=2
 
 ---
 
-## 9. Configure Webhook
+## 12. Configure Webhook
 
 **Endpoint:** `PUT /api/v1/webhooks/config`
 **Authentication:** Required (X-API-Key or Bearer token)
@@ -326,14 +441,14 @@ curl -X GET "$DEV_URL/api/v1/calls/metrics?agent_id=your-agent-uuid&start_date=2
 {
   "webhook_url": "https://your-domain.com/webhook",
   "enabled": true,
-  "events": ["call.started", "call.completed", "call.failed"]
+  "events": ["call.started", "call.completed", "call.failed", "call.analysed"]
 }
 ```
 
 **Fields:**
 - `webhook_url` (required): Your endpoint URL
 - `enabled` (optional): Enable/disable (default: true)
-- `events` (optional): Event types (default: all)
+- `events` (optional): Event types - `call.started`, `call.completed`, `call.failed`, `call.analysed` (default: all)
 
 **Curl (Using X-API-Key):**
 ```bash
@@ -343,7 +458,7 @@ curl -X PUT "$DEV_URL/api/v1/webhooks/config" \
   -d '{
     "webhook_url": "https://your-domain.com/webhook",
     "enabled": true,
-    "events": ["call.started", "call.completed", "call.failed"]
+    "events": ["call.started", "call.completed", "call.failed", "call.analysed"]
   }'
 ```
 
@@ -352,13 +467,13 @@ curl -X PUT "$DEV_URL/api/v1/webhooks/config" \
 {
   "webhook_url": "https://your-domain.com/webhook",
   "enabled": true,
-  "events": ["call.started", "call.completed", "call.failed"]
+  "events": ["call.started", "call.completed", "call.failed", "call.analysed"]
 }
 ```
 
 ---
 
-## 10. Get Webhook Configuration
+## 13. Get Webhook Configuration
 
 **Endpoint:** `GET /api/v1/webhooks/config`
 **Authentication:** Required (X-API-Key or Bearer token)
@@ -374,13 +489,13 @@ curl -X GET "$DEV_URL/api/v1/webhooks/config" \
 {
   "webhook_url": "https://your-domain.com/webhook",
   "enabled": true,
-  "events": ["call.started", "call.completed", "call.failed"]
+  "events": ["call.started", "call.completed", "call.failed", "call.analysed"]
 }
 ```
 
 ---
 
-## 11. Delete Webhook Configuration
+## 14. Delete Webhook Configuration
 
 **Endpoint:** `DELETE /api/v1/webhooks/config`
 **Authentication:** Required (X-API-Key or Bearer token)
@@ -400,7 +515,7 @@ curl -X DELETE "$DEV_URL/api/v1/webhooks/config" \
 
 ---
 
-## 12. Send Test Webhook
+## 15. Send Test Webhook
 
 **Endpoint:** `POST /api/v1/webhooks/test`
 **Authentication:** Required (X-API-Key or Bearer token)
@@ -413,7 +528,7 @@ curl -X DELETE "$DEV_URL/api/v1/webhooks/config" \
 ```
 
 **Fields:**
-- `event_type` (optional): `call.started`, `call.completed`, or `call.failed` (default: call.completed)
+- `event_type` (optional): `call.started`, `call.completed`, `call.failed`, or `call.analysed` (default: call.completed)
 
 **Curl (Using X-API-Key):**
 ```bash
@@ -429,43 +544,6 @@ curl -X POST "$DEV_URL/api/v1/webhooks/test" \
   "status": "success",
   "message": "Test webhook sent to https://your-domain.com/webhook",
   "response_status": 200
-}
-```
-
----
-
-## 13. Get Webhook Logs
-
-**Endpoint:** `GET /api/v1/webhooks/logs`
-**Authentication:** Required (X-API-Key or Bearer token)
-
-**Query Parameters:**
-- `limit` (optional): Number of logs (default: 50, max: 200)
-- `offset` (optional): Pagination offset (default: 0)
-- `event_type` (optional): Filter by event
-- `delivery_status` (optional): Filter by status (pending, success, failed, retrying)
-
-**Curl (Using X-API-Key):**
-```bash
-curl -X GET "$DEV_URL/api/v1/webhooks/logs?limit=10" \
-  -H "X-API-Key: $API_KEY"
-```
-
-**Response:**
-```json
-{
-  "total": 127,
-  "limit": 10,
-  "offset": 0,
-  "logs": [
-    {
-      "event_type": "call.completed",
-      "call_id": "uuid",
-      "delivery_status": "success",
-      "http_status": 200,
-      "sent_at": "2025-01-15T10:30:00Z"
-    }
-  ]
 }
 ```
 
@@ -530,7 +608,7 @@ Triggered when a call begins.
 ```
 
 ### call.completed
-Triggered when a call completes successfully.
+Triggered **immediately** when a call ends (basic call information, NO AI analysis).
 
 **Payload Example:**
 ```json
@@ -544,15 +622,43 @@ Triggered when a call completes successfully.
   "tokens_consumed": 5,
   "status": "completed",
   "outcome": "answered",
+  "summary": "Call completed successfully",
+  "recording_url": "https://...",
+  "transcript": "..."
+}
+```
+
+**Note:** AI analysis is NOT included in this event. Use `call.analysed` event to receive AI analysis results.
+
+### call.analysed
+Triggered when AI analysis completes (includes all call details + AI analysis).
+
+**Payload Example:**
+```json
+{
+  "event": "call.analysed",
+  "timestamp": "2025-01-15T10:35:30Z",
+  "call_id": "uuid",
+  "lead_id": "uuid",
+  "agent_id": "uuid",
+  "duration_seconds": 125,
+  "tokens_consumed": 5,
+  "status": "completed",
+  "outcome": "answered",
+  "summary": "Call completed successfully",
   "ai_analysis": {
     "sentiment": "positive",
-    "key_points": ["..."],
-    "call_successful": true
+    "key_points": ["Customer interested in product demo", "Budget confirmed at $50k"],
+    "next_action": "Schedule product demonstration",
+    "call_successful": true,
+    "custom_analysis_data": {}
   },
   "recording_url": "https://...",
   "transcript": "..."
 }
 ```
+
+**Note:** This event fires after `call.completed`, typically 5-30 seconds later when AI analysis finishes processing.
 
 ### call.failed
 Triggered when a call fails.
@@ -584,6 +690,10 @@ Triggered when a call fails.
 ## Notes
 
 **API Summary:**
+- **Agent Management**:
+  - List Agents: `GET /api/v1/agents` (with pagination & filters)
+  - Update Agent: `PUT /api/v1/agents/{agent_id}`
+  - Delete Agent: `DELETE /api/v1/agents/{agent_id}`
 - **Lead Management**: Full CRUD operations (Create, Read, Update, Delete)
   - Create Lead: `POST /api/v1/leads`
   - Get Single Lead: `GET /api/v1/leads/{lead_id}`
@@ -599,7 +709,6 @@ Triggered when a call fails.
   - Get Configuration: `GET /api/v1/webhooks/config`
   - Delete Configuration: `DELETE /api/v1/webhooks/config`
   - Send Test Webhook: `POST /api/v1/webhooks/test`
-  - Get Webhook Logs: `GET /api/v1/webhooks/logs` (with filters & pagination)
 
 **Getting Started:**
 1. Get your API key from the admin panel settings

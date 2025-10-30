@@ -1,0 +1,219 @@
+/* Diff Viewer Styles - GitHub Light Theme */
+
+/* Container */
+.diff-viewer-container {
+  background-color: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  overflow: hidden;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Diff Lines - Line-by-line rendering */
+.diff-line {
+  display: flex;
+  align-items: flex-start;
+  padding: 0;
+  font-size: 13px;
+  line-height: 20px;
+  border-left: 3px solid transparent;
+  min-height: 20px;
+}
+
+/* Line Prefix */
+.diff-prefix {
+  display: inline-block;
+  width: 24px;
+  text-align: center;
+  padding: 0 4px;
+  font-weight: 600;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+/* Addition Lines */
+.diff-line.addition {
+  background-color: #e6ffec;
+  border-left-color: #2da44e;
+}
+
+.diff-line.addition .diff-prefix {
+  color: #1a7f37;
+}
+
+.diff-line.addition .diff-content {
+  color: #1a7f37;
+  padding: 0 12px;
+  flex: 1;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Deletion Lines */
+.diff-line.deletion {
+  background-color: #ffebe9;
+  border-left-color: #d1242f;
+}
+
+.diff-line.deletion .diff-prefix {
+  color: #cf222e;
+}
+
+.diff-line.deletion .diff-content {
+  color: #cf222e;
+  padding: 0 12px;
+  flex: 1;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Context Lines (unchanged) */
+.diff-line.context {
+  background-color: transparent;
+  border-left-color: transparent;
+}
+
+.diff-line.context .diff-prefix {
+  color: #57606a;
+}
+
+.diff-line.context .diff-content {
+  color: #24292f;
+  padding: 0 12px;
+  flex: 1;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Checkbox Integration */
+.diff-checkbox {
+  margin: 0 8px 0 12px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+/* Expand/Collapse Button */
+.diff-expand-button {
+  background-color: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-left: 3px solid #0969da;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.diff-expand-button:hover {
+  background-color: #eaeef2;
+  border-left-color: #0550ae;
+}
+
+/* Section Headers */
+.diff-section-header {
+  background-color: #f6f8fa;
+  color: #57606a;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  border-bottom: 1px solid #d0d7de;
+}
+
+/* AI Reasoning Info */
+.diff-reason {
+  background-color: #f6f8fa;
+  color: #57606a;
+  padding: 4px 12px;
+  margin-left: 40px;
+  font-size: 11px;
+  border-left: 3px solid #0969da;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Hover Effects */
+.diff-line.addition:hover {
+  background-color: #d1f4dd;
+}
+
+.diff-line.deletion:hover {
+  background-color: #ffd7d5;
+}
+
+/* Summary Section */
+.diff-summary {
+  background-color: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+/* Scrollbar styling for better UX */
+.diff-viewer-container::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.diff-viewer-container::-webkit-scrollbar-track {
+  background: #f6f8fa;
+  border-radius: 4px;
+}
+
+.diff-viewer-container::-webkit-scrollbar-thumb {
+  background: #d0d7de;
+  border-radius: 4px;
+}
+
+.diff-viewer-container::-webkit-scrollbar-thumb:hover {
+  background: #afb8c1;
+}
+
+/* Inline Diff Styles - For Call-Based Prompt Improvement */
+.inline-diff-container {
+  font-family: 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border: 1px solid #d0d7de;
+  overflow-x: auto;
+}
+
+/* Equal text - unchanged parts */
+.diff-equal {
+  color: #24292f;
+}
+
+/* Deleted text - red with strikethrough */
+.diff-delete {
+  background-color: #ffeef0;
+  color: #d73a49;
+  text-decoration: line-through;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+/* Inserted text - green highlight */
+.diff-insert {
+  background-color: #e6ffed;
+  color: #22863a;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+/* Hover effects for inline diff */
+.diff-delete:hover {
+  background-color: #ffc0cb;
+}
+
+.diff-insert:hover {
+  background-color: #ccffdd;
+}

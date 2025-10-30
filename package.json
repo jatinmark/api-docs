@@ -1,0 +1,42 @@
+{
+  "name": "conversai-labs-admin-panel",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbo",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@headlessui/react": "^2.2.7",
+    "@tanstack/react-query": "^5.81.2",
+    "@tanstack/react-query-devtools": "^5.81.2",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@vercel/edge": "^1.2.2",
+    "antd": "^5.27.4",
+    "autoprefixer": "^10.0.1",
+    "clsx": "^2.0.0",
+    "framer-motion": "^12.23.22",
+    "lucide-react": "^0.294.0",
+    "mermaid": "^11.12.0",
+    "next": "^14.2.30",
+    "postcss": "^8",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-ga4": "^2.1.0",
+    "react-hot-toast": "^2.5.2",
+    "react-markdown": "^10.1.0",
+    "recharts": "^3.2.1",
+    "remark-gfm": "^4.0.1",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.2",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.0"
+  }
+}

@@ -1,0 +1,600 @@
+/* Diff Viewer Styles for Prompt Improvement Feature */
+@import '../styles/diff-viewer.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom scrollbar utilities */
+@layer utilities {
+  .scrollbar-hide {
+    /* For Webkit browsers */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  /* Custom thin scrollbar for sidebar */
+  .scrollbar-thin-dark {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
+  }
+
+  .scrollbar-thin-dark::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin-dark::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin-dark::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.3);
+    border-radius: 3px;
+    transition: background-color 0.2s;
+  }
+
+  .scrollbar-thin-dark:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.5);
+  }
+
+  .scrollbar-thin-dark::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(156, 163, 175, 0.6);
+  }
+}
+
+/* CalliQ Brand Styling */
+.calliq-brand {
+  font-family: var(--font-lexend), system-ui, -apple-system, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  /* Add subtle gradient for premium feel */
+  background: linear-gradient(135deg, #3B82F6, #2563EB);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.calliq-brand-white {
+  font-family: var(--font-lexend), system-ui, -apple-system, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes animate-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoom-in-95 {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-in {
+  animation: animate-in 0.2s ease-out;
+}
+
+.fade-in {
+  animation: fade-in 0.2s ease-out;
+}
+
+.zoom-in-95 {
+  animation: zoom-in-95 0.2s ease-out;
+}
+
+/* Key Moments Timeline Styling */
+.key-moments-timeline {
+  @apply relative;
+}
+
+.timeline-track {
+  @apply absolute inset-x-0 top-1/2 -translate-y-1/2 h-1 bg-gray-200 rounded-full;
+}
+
+.timeline-progress {
+  @apply absolute top-1/2 -translate-y-1/2 h-1 bg-blue-400 rounded-full transition-all duration-300;
+}
+
+.timeline-marker {
+  @apply absolute top-1/2 -translate-y-1/2 -translate-x-1/2 cursor-pointer z-10;
+  transition: transform 0.2s ease;
+}
+
+.timeline-marker:hover {
+  transform: translate(-50%, -50%) scale(1.25);
+}
+
+.timeline-marker-dot {
+  @apply relative flex items-center justify-center w-10 h-10 -mt-4 transition-all duration-200;
+}
+
+.timeline-marker-icon {
+  @apply relative w-8 h-8 rounded-full shadow-md flex items-center justify-center bg-white border-2;
+}
+
+.timeline-current-indicator {
+  @apply absolute top-1/2 -translate-y-1/2 -translate-x-1/2 z-20;
+}
+
+.timeline-current-dot {
+  @apply w-3 h-3 bg-blue-600 rounded-full shadow-lg animate-pulse;
+}
+
+/* Key Moments List Styling */
+.key-moments-section {
+  @apply bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden;
+}
+
+.key-moments-section-header {
+  @apply w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors;
+}
+
+.key-moments-section-content {
+  @apply px-4 pb-4 space-y-3 border-t border-gray-100;
+}
+
+.key-moment-item {
+  @apply flex items-start gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors;
+}
+
+.key-moment-timestamp {
+  @apply flex items-center gap-1 px-2 py-1 bg-blue-600 text-white text-xs font-medium rounded hover:bg-blue-700 transition-colors flex-shrink-0;
+}
+
+.key-moment-content {
+  @apply flex-1 space-y-1;
+}
+
+.key-moment-speaker {
+  @apply text-xs font-medium text-gray-600 uppercase;
+}
+
+.key-moment-text {
+  @apply text-sm text-gray-800 flex-1;
+}
+
+.key-moment-context {
+  @apply text-xs text-gray-500 italic ml-14;
+}
+
+.key-moment-status {
+  @apply flex items-center gap-2 ml-14;
+}
+
+.key-moment-addressed {
+  @apply flex items-center gap-1 text-xs font-medium text-green-600;
+}
+
+.key-moment-unaddressed {
+  @apply flex items-center gap-1 text-xs font-medium text-orange-600;
+}
+
+.key-moment-competitor-badge {
+  @apply px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded-full font-medium;
+}
+
+.key-moment-severity-badge {
+  @apply px-2 py-0.5 text-xs rounded-full font-medium border;
+}
+
+.key-moment-deadline-badge {
+  @apply px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full font-medium;
+}
+
+/* Key Moments Summary Cards */
+.key-moments-summary {
+  @apply bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6;
+}
+
+.key-moments-summary-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4;
+}
+
+.key-moment-card {
+  @apply bg-white rounded-lg p-4 shadow-sm border border-blue-100 hover:shadow-md transition-shadow;
+}
+
+.key-moment-card-header {
+  @apply flex items-start justify-between mb-2;
+}
+
+.key-moment-card-icon {
+  @apply text-2xl;
+}
+
+.key-moment-card-count {
+  @apply text-lg font-bold;
+}
+
+.key-moment-card-title {
+  @apply text-sm font-medium text-gray-900;
+}
+
+.key-moment-card-subtitle {
+  @apply text-xs text-gray-500 mt-1;
+}
+
+/* Hover Effects and Animations */
+@keyframes timeline-ping {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  75%, 100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.timeline-marker:hover .timeline-marker-ping {
+  animation: timeline-ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Tooltip Styling */
+.timeline-tooltip {
+  @apply absolute bottom-full mb-2 left-1/2 -translate-x-1/2 z-50;
+}
+
+.timeline-tooltip-content {
+  @apply bg-gray-900 text-white text-xs rounded-lg px-3 py-2 whitespace-nowrap shadow-lg;
+}
+
+.timeline-tooltip-arrow {
+  @apply absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full;
+}
+
+.timeline-tooltip-arrow::after {
+  content: '';
+  @apply block w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900;
+}
+
+/* Responsive Design for Key Moments */
+@media (max-width: 768px) {
+  .key-moments-summary-grid {
+    @apply grid-cols-1;
+  }
+  
+  .key-moment-item {
+    @apply flex-col gap-2;
+  }
+  
+  .key-moment-timestamp {
+    @apply self-start;
+  }
+  
+  .key-moment-context,
+  .key-moment-status {
+    @apply ml-0;
+  }
+}
+
+/* Animation for expanding sections */
+@keyframes expand-section {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 2000px;
+  }
+}
+
+.section-expand {
+  animation: expand-section 0.3s ease-out forwards;
+}
+
+/* Severity Level Colors */
+.severity-critical {
+  @apply bg-red-100 text-red-800 border-red-200;
+}
+
+.severity-high {
+  @apply bg-orange-100 text-orange-800 border-orange-200;
+}
+
+.severity-medium {
+  @apply bg-yellow-100 text-yellow-800 border-yellow-200;
+}
+
+.severity-low {
+  @apply bg-blue-100 text-blue-800 border-blue-200;
+}
+
+/* Key Moment Highlighting in Transcript */
+.key-moment-highlight {
+  @apply bg-yellow-100 border-l-4 border-yellow-500 shadow-lg;
+  animation: highlight-pulse 0.5s ease-in-out;
+  position: relative;
+}
+
+.key-moment-highlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -4px;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(252, 211, 77, 0.3) 0%,
+    rgba(252, 211, 77, 0.1) 50%,
+    transparent 100%
+  );
+  animation: highlight-wave 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes highlight-pulse {
+  0% {
+    background-color: rgb(254 240 138);
+    transform: scale(1);
+  }
+  50% {
+    background-color: rgb(252 211 77);
+    transform: scale(1.02);
+  }
+  100% {
+    background-color: rgb(254 240 138);
+    transform: scale(1);
+  }
+}
+
+@keyframes highlight-wave {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+/* Specific text highlight animation */
+@keyframes text-highlight-pulse {
+  0% {
+    background-color: rgb(250 204 21);
+    transform: scale(1.05);
+  }
+  50% {
+    background-color: rgb(251 191 36);
+    transform: scale(1.08);
+  }
+  100% {
+    background-color: rgb(250 204 21);
+    transform: scale(1.05);
+  }
+}
+
+/* Performance Optimizations CSS */
+
+/* Shimmer Animation for Loading States */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Hardware Acceleration for Smooth Scrolling */
+.smooth-scroll {
+  -webkit-overflow-scrolling: touch;
+  will-change: scroll-position;
+}
+
+/* CSS Containment for List Items */
+.list-item-container {
+  contain: layout style paint;
+  content-visibility: auto;
+}
+
+/* Optimize Table Rendering */
+.table-container {
+  contain: layout;
+  will-change: transform;
+}
+
+.table-row {
+  contain: layout style;
+  content-visibility: auto;
+}
+
+/* Optimize Modal Animations */
+.modal-backdrop {
+  will-change: opacity;
+  contain: layout style;
+}
+
+.modal-content {
+  will-change: transform, opacity;
+  contain: layout style paint;
+}
+
+/* Optimize Card Shadows */
+.card-optimized {
+  will-change: box-shadow, transform;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  contain: layout style;
+}
+
+.card-optimized:hover {
+  transform: translateY(-2px);
+}
+
+/* Optimize Button Interactions */
+.btn-optimized {
+  will-change: transform, background-color;
+  transition: all 0.15s ease;
+  contain: layout style;
+}
+
+.btn-optimized:active {
+  transform: scale(0.98);
+}
+
+/* Optimize Loading Spinners */
+.spinner-optimized {
+  will-change: transform;
+  contain: layout style paint;
+}
+
+/* Reduce Paint Areas for Fixed Elements */
+.fixed-header {
+  will-change: transform;
+  contain: layout style;
+  backface-visibility: hidden;
+}
+
+/* Virtual Scrolling Container */
+.virtual-scroll-container {
+  contain: strict;
+  will-change: scroll-position;
+}
+
+.virtual-scroll-item {
+  contain: layout style paint;
+  content-visibility: auto;
+}
+
+/* Optimize Tooltip Rendering */
+.tooltip-container {
+  will-change: opacity, transform;
+  contain: layout style paint;
+  pointer-events: none;
+}
+
+/* Optimize Tab Transitions */
+.tab-panel {
+  will-change: opacity;
+  contain: layout style paint;
+}
+
+/* Reduce Reflow for Dynamic Content */
+.dynamic-content {
+  contain: layout;
+  min-height: 0;
+}
+
+/* Optimize Skeleton Loaders */
+.skeleton-optimized {
+  will-change: opacity;
+  contain: layout style paint;
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Focus Visible for Accessibility */
+.focus-visible:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.focus-visible:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animate-shimmer,
+  .animate-fadeIn,
+  .spinner-optimized {
+    animation: none;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .card-optimized {
+    border: 2px solid currentColor;
+  }
+  
+  .btn-optimized {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Dark Mode Performance */
+@media (prefers-color-scheme: dark) {
+  .card-optimized,
+  .modal-content {
+    will-change: background-color, border-color;
+  }
+}

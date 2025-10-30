@@ -1,0 +1,125 @@
+/* Performance optimizations for Call History table */
+
+/* Enable GPU acceleration and optimize rendering */
+.call-table-container {
+  will-change: scroll-position;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Contain layout calculations to table only */
+.call-table-wrapper {
+  contain: paint; /* Only paint containment, not layout */
+  overflow-x: auto;
+  overflow-y: visible; /* Allow tooltips to show outside */
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+
+/* Optimize table rendering */
+.call-table {
+  table-layout: auto; /* Changed from fixed to auto for proper sizing */
+  border-collapse: separate;
+  border-spacing: 0;
+  min-width: 100%;
+}
+
+/* Optimize individual rows */
+.call-table-row {
+  contain: style; /* Removed layout containment to allow proper sizing */
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Prevent layout thrashing on hover */
+.call-table-row:hover {
+  transform: translateZ(0);
+  transition: background-color 0.1s ease;
+}
+
+/* Optimize cell rendering */
+.call-table-cell {
+  contain: style paint; /* Removed layout containment */
+  white-space: nowrap; /* Prevent text wrapping by default */
+  padding: 0.75rem 1rem; /* Ensure proper padding */
+  min-width: fit-content; /* Ensure cells don't shrink too much */
+  vertical-align: middle;
+}
+
+/* Complex cells with tooltips need special handling */
+.call-table-complex-cell {
+  position: relative;
+  overflow: visible !important; /* Allow tooltips to overflow */
+  contain: none !important; /* Disable containment so tooltips can escape */
+}
+
+/* Optimize tooltip rendering - only render when visible */
+.call-tooltip {
+  contain: layout style paint;
+  will-change: opacity, visibility;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease, visibility 0.15s ease;
+  z-index: 9999 !important; /* Ensure tooltip appears above everything */
+}
+
+.call-tooltip-trigger:hover .call-tooltip {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 9999 !important;
+}
+
+/* Optimize badge rendering */
+.call-badge {
+  contain: layout style;
+  will-change: auto;
+  transform: translateZ(0);
+}
+
+/* Optimize scrollbar for smoother scrolling */
+.call-table-container::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.call-table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.call-table-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+
+.call-table-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Reduce paint areas for complex cells */
+.call-table-complex-cell {
+  isolation: isolate;
+  contain: paint;
+  min-width: 200px; /* Ensure complex cells have minimum width */
+  position: relative; /* For tooltip positioning */
+}
+
+/* Optimize animations */
+@media (prefers-reduced-motion: no-preference) {
+  .call-table-row {
+    transition: background-color 0.15s ease;
+  }
+}
+
+/* Disable animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .call-table-row,
+  .call-tooltip,
+  .call-table-container::-webkit-scrollbar-thumb {
+    transition: none !important;
+  }
+}

@@ -200,7 +200,7 @@ export default function CallIQCallsPage() {
         stopLoading('calls-data');
       }
     }
-  }, [signal]); // Add signal as dependency
+  }, [calls.length, startLoading, stopLoading]); // signal is from useAbortController and doesn't need to be a dependency
 
   // Load persisted filters on mount
   useEffect(() => {
@@ -303,7 +303,7 @@ export default function CallIQCallsPage() {
 
     setFilteredCalls(filtered);
     setCurrentPage(1);
-  }, [filters, calls]);
+  }, [filters, calls, setCurrentPage]);
 
   // Pagination
   const totalPages = getTotalPages(filteredCalls.length);

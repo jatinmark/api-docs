@@ -76,7 +76,7 @@ export function useEventListener(
     return () => {
       targetElement.removeEventListener(eventName, eventListener, options);
     };
-  }, [eventName, element, options?.capture, options?.passive, options?.once]);
+  }, [eventName, element, handler, options]);
 }
 
 /**

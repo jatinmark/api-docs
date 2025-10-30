@@ -242,7 +242,7 @@ print(f"Lead ID: {lead['id']}")`,
               <ul className="list-disc list-inside space-y-1 text-sm">
                 <li>Phone numbers must be in E.164 format</li>
                 <li>Ensure the trailing slash in the endpoint: <code>/api/v1/leads/</code></li>
-                <li>Indian numbers are auto-verified with "company_verified" method</li>
+                <li>Indian numbers are auto-verified with &quot;company_verified&quot; method</li>
               </ul>
             </Callout>
           </ApiEndpoint>
@@ -873,7 +873,7 @@ print(result['message'])`,
             </Callout>
 
             <Callout type="danger" title="Troubleshooting">
-              If you receive "Failed to initiate call", check:
+              If you receive &quot;Failed to initiate call&quot;, check:
               <ul className="list-disc list-inside space-y-1 text-sm mt-2">
                 <li>Agent configuration is complete with voice settings</li>
                 <li>Lead exists and is in valid state</li>

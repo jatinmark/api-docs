@@ -608,7 +608,7 @@ Our Vision: A world where every customer interaction is meaningful, timely, and 
       apiKey: '',
       eventTypeId: ''
     })
-  }, [])
+  }, [getDefaultParsedSections])
 
   // Handle modal close with confirmation
   const handleClose = useCallback(() => {

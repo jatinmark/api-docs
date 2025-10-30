@@ -26,6 +26,7 @@ export default function PhonePage() {
 
   useEffect(() => {
     fetchData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokens])
 
   const fetchData = async () => {

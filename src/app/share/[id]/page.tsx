@@ -60,6 +60,7 @@ export default function ShareCallPage() {
     return () => {
       isMountedRef.current = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [callId]);
 
   if (loading) {

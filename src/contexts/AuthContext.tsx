@@ -362,7 +362,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         })
       }
     }
-  }, [])
+  }, [setUser])
 
   useEffect(() => {
     initializeAuth()

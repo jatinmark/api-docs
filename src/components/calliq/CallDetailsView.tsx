@@ -314,6 +314,7 @@ export function CallDetailsView({
     };
     
     preloadAudio();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [call?.recording_url, call?.id, showActions]);
 
   useEffect(() => {

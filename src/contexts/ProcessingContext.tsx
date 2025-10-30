@@ -56,6 +56,7 @@ export function ProcessingProvider({ children }: { children: ReactNode }) {
     };
     
     loadPersistedJobs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Persist jobs whenever they change

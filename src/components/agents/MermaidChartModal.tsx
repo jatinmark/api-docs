@@ -67,7 +67,7 @@ export const MermaidChartModal = ({ isOpen, onClose, agent }: MermaidChartModalP
     } finally {
       setChartLoading(false)
     }
-  }, [agent.name, agentPromptData?.prompt])
+  }, [agent.id, agent.name, agentPromptData?.prompt])
 
   useEffect(() => {
     // Initialize Mermaid and wait for it to be ready

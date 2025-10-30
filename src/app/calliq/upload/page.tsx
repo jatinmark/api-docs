@@ -160,6 +160,7 @@ export default function CallIQUploadPage() {
         });
       }, 5000); // Rotate every 5 seconds
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [processingMessages]);
   
   // Stop enhanced progress tracking
@@ -354,6 +355,7 @@ export default function CallIQUploadPage() {
     }, 500);
     
     loadPersistedJob();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Fetch company info list on mount

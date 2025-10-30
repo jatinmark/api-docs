@@ -28,6 +28,7 @@ export function WhatsAppConversations({ isOpen, onClose, agentId, agentName }: W
     if (isOpen) {
       fetchConversations()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, agentId])
 
   useEffect(() => {

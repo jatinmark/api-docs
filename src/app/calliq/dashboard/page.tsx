@@ -486,7 +486,7 @@ export default function CallIQDashboard() {
         stopLoading('dashboard-data');
       }
     }
-  }, [signal]); // Add signal to dependencies
+  }, [startLoading, stopLoading]); // signal is from useAbortController and doesn't need to be a dependency
 
   // Event handlers with useCallback to prevent memory leaks
   const handleRetry = useCallback(() => {

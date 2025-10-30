@@ -80,6 +80,7 @@ export default function CompanyDashboardPage() {
         fetchCompanyDashboard();
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, router, companyId]);
 
   const fetchCompanyDashboard = async () => {

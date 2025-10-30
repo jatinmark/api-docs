@@ -95,7 +95,7 @@ export default function CallDetailPage() {
         setLoading(false);
       }
     }
-  }, [callId, autoRefreshInterval, signal]);
+  }, [callId, autoRefreshInterval]);
 
   // Retrieve company info from session storage on mount
   useEffect(() => {
